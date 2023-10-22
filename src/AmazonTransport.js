@@ -32,9 +32,13 @@ module.exports = awsConfig => {
         }
 
         // Callback support
-        awaitAwsCredentials(awsConfig)
-          .then(() => super.request(params, options, callback))
-          .catch(callback)
+        awaitAwsCredentials(awsConfig).then();
+
+        try {
+            super.request(params, options, callback);
+        } catch (err) {
+            callback(err, { body: null });
+        }
       }
     }
   }
